@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include price_feat_auto *.css
+recursive-include price_feat_auto *.csv
+recursive-include price_feat_auto *.html
+recursive-include price_feat_auto *.ico
+recursive-include price_feat_auto *.js
+recursive-include price_feat_auto *.json
+recursive-include price_feat_auto *.md
+recursive-include price_feat_auto *.png
+recursive-include price_feat_auto *.py
+recursive-include price_feat_auto *.svg
+recursive-include price_feat_auto *.txt
+recursive-exclude price_feat_auto *.pyc
