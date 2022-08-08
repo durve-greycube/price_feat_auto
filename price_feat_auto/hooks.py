@@ -31,7 +31,10 @@ app_license = "MIT"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+doctype_js = {"Quotation" : "public/js/fetch_rates.js",
+"Sales Order" : "public/js/fetch_rates.js",
+"Sales Invoice" : "public/js/fetch_rates.js"
+}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -135,9 +138,9 @@ app_license = "MIT"
 # override_whitelisted_methods = {
 # 	"frappe.desk.doctype.event.event.get_events": "price_feat_auto.event.get_events"
 # }
-override_whitelisted_methods = {
-	"erpnext.stock.get_item_details.get_item_details": "price_feat_auto.api.get_latest_price_for_get_item_details"
-}
+# override_whitelisted_methods = {
+# 	"erpnext.stock.get_item_details.get_item_details": "price_feat_auto.api.get_latest_price_for_get_item_details"
+# }
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
