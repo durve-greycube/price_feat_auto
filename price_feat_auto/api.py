@@ -37,3 +37,64 @@ def fetch_latest_customer_price(customer,item_code):
             on main.name=child_item.parent where main.customer= %s and child_item.item_code = %s 
             and main.docstatus = 1  order by main.posting_date  Desc, main.name Desc limit 1""",(customer,item_code),as_dict=1)
     return result
+
+
+@frappe.whitelist()
+def fetch_all_latest_customer_price(customer, items):
+        '''Return Latest Customer Price for all items'''
+        last_rates = {}
+        items = json.loads(items)
+        for row in items:
+            row = frappe._dict(row)
+            latest_customer_price = fetch_latest_customer_price(customer, row.item_code)
+            if len(latest_customer_price):
+                latest_customer_price = latest_customer_price[0].rate
+            else:
+                latest_customer_price = 'Not Found'
+
+            if hasattr(row, 'item_code') and row.item_code:
+                if row.set_latest_customer_price:
+                        last_rates[(row.idx, row.item_code)] = (row.rate, latest_customer_price)
+                else:
+                    last_rates[(row.idx, row.item_code)] = (row.rate, f'{latest_customer_price} - Ignored')
+        
+        rows_msg = ''
+        for key, value in last_rates.items():
+            if value[0] == value[1]:
+                continue
+            
+            # Color of the Customer Rate
+            color = 'red' if value[0] != value[1] else 'black'
+            if 'Ignored' in str(value[1]):
+                color = 'green'
+
+            rows_msg += f'''
+            <tr>
+                <td style="border: 1px solid black; text-align: center;">{key[0]}</td>
+                <td style="border: 1px solid black; text-align: center;">{key[1]}</td>
+                <td style="border: 1px solid black; text-align: center;">{value[0]}</td>
+                <td style="border: 1px solid black; text-align: center; color: {color};">{value[1]}</td>
+            </tr>
+            '''
+
+        if len(rows_msg) == 0:
+            rows_msg = '''
+                <tr><td colspan="4" style="border: 1px solid black; text-align: center; color: green;">No data to verify</td></tr>
+            '''
+        table_msg = f'''
+            <div><b>Are you sure the values are correct</b></div><br>
+            <table style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th style="border: 1px solid; text-align: center;">Row#</th>
+                        <th style="border: 1px solid; text-align: center;">Item Code</th>
+                        <th style="border: 1px solid; text-align: center;">Set Rate</th>
+                        <th style="border: 1px solid; text-align: center;">Customer Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {rows_msg}
+                </tbody>
+            </table>
+        '''
+        return table_msg
