@@ -66,7 +66,7 @@ def fetch_all_latest_customer_price(customer, items):
             # Color of the Customer Rate
             color = 'red' if value[0] != value[1] else 'black'
             if 'Ignored' in str(value[1]):
-                color = 'green'
+                color = 'red'
 
             rows_msg += f'''
             <tr>
