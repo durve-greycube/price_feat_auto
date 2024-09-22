@@ -62,7 +62,7 @@ doctype_js = {"Quotation" : "public/js/quotation.js",
 
 # before_install = "price_feat_auto.install.before_install"
 # after_install = "price_feat_auto.install.after_install"
-
+after_migrate = "price_feat_auto.migrate.after_migrate"
 # Uninstallation
 # ------------
 
